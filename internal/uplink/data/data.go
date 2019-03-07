@@ -263,9 +263,9 @@ func resolveDeviceLocation(ctx *dataContext) error {
 
 	var rxInfoWithFineTimestamp []*gw.UplinkRXInfo
 	for i := range ctx.RXPacket.RXInfoSet {
-		if ctx.RXPacket.RXInfoSet[i].FineTimestampType == gw.FineTimestampType_PLAIN {
-			rxInfoWithFineTimestamp = append(rxInfoWithFineTimestamp, ctx.RXPacket.RXInfoSet[i])
-		}
+		// if ctx.RXPacket.RXInfoSet[i].FineTimestampType == gw.FineTimestampType_PLAIN {
+		rxInfoWithFineTimestamp = append(rxInfoWithFineTimestamp, ctx.RXPacket.RXInfoSet[i])
+		// }
 	}
 
 	if len(rxInfoWithFineTimestamp) < 3 {
@@ -277,6 +277,7 @@ func resolveDeviceLocation(ctx *dataContext) error {
 
 	// perform the actual geolocation in a separate goroutine
 	go func(devEUI lorawan.EUI64, referenceAlt float64, geoClient geo.GeolocationServerServiceClient, asClient as.ApplicationServerServiceClient, rxInfo []*gw.UplinkRXInfo) {
+
 		resp, err := geoClient.ResolveTDOA(context.Background(), &geo.ResolveTDOARequest{
 			DevEui: devEUI[:],
 			FrameRxInfo: &geo.FrameRXInfo{
@@ -284,6 +285,7 @@ func resolveDeviceLocation(ctx *dataContext) error {
 			},
 			DeviceReferenceAltitude: referenceAlt,
 		})
+
 		if err != nil {
 			log.WithFields(log.Fields{
 				"dev_eui": devEUI,
