@@ -1,0 +1,5 @@
+FROM alpine:latest AS production
+
+WORKDIR /root/
+COPY build/loraserver .
+ENTRYPOINT ["./loraserver"]
