@@ -5,7 +5,7 @@ docker run -d -it --volume=$PWD:/go/src/github.com/brocaar/loraserver --name lor
 sudo docker exec lora_server_dev /bin/sh -c "make dev-requirements && make requirements"
 
 # Compile and recreate imag
-sudo docker exec lora_server_dev /bin/sh -c "make clean && make build" && sudo docker build -t theo024/loraserver -f Dockerfile-khbx .
+sudo docker exec lora_server_dev /bin/sh -c "make clean && make build" && sudo docker build -t theo024/loraserver -f Dockerfile-copy .
 
 # Image was built using
 docker build -f Dockerfile-devel -t khbx/lora_server_dev .
